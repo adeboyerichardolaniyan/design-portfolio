@@ -18,6 +18,8 @@ links:
     url: "#"
 ---
 
+import DemoWidget from "@/components/interactive/DemoWidget.tsx";
+
 ## Design Language
 
 The visual language for Meridian was built on principles of clarity and composability. Every token, every component, every pattern was designed to work independently and in concert.
@@ -25,6 +27,10 @@ The visual language for Meridian was built on principles of clarity and composab
 ## Token Architecture
 
 We developed a three-tier token system: primitive values, semantic tokens, and component-specific tokens. This allowed teams to customize their products while maintaining system-wide consistency.
+
+Explore the token system interactively below — select tokens and preview how they render across different border radius values:
+
+<DemoWidget client:visible />
 
 ## Component Library
 

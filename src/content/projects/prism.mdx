@@ -15,6 +15,8 @@ links:
     url: "#"
 ---
 
+import MiniAppEmbed from "@/components/interactive/MiniAppEmbed.tsx";
+
 ## Human-AI Collaboration
 
 The central design challenge was balance: how do you give users the power of generative AI without making them feel like passengers? We designed a "steering wheel" metaphor — the AI suggests, the human directs.
@@ -22,6 +24,17 @@ The central design challenge was balance: how do you give users the power of gen
 ## Creative Workflow
 
 The workflow follows a diverge-converge pattern: generate many options quickly, then curate and refine. The interface adapts its density based on which phase the user is in.
+
+Compare the AI-generated draft against the human-refined output:
+
+<MiniAppEmbed
+  client:visible
+  beforeLabel="AI Draft"
+  afterLabel="Human Refined"
+  beforeColor="#e8e0f0"
+  afterColor="#0f0f0f"
+  caption="Prism — AI generates the starting point, humans refine the result"
+/>
 
 ## Interface Design
 
