@@ -12,6 +12,15 @@ const tokens = [
 
 const radiusOptions = ["0", "0.5rem", "1rem", "1.5rem", "9999px"];
 
+function getTextColor(bgColor: string) {
+  const hex = bgColor.replace("#", "");
+  const r = parseInt(hex.substring(0, 2), 16) / 255;
+  const g = parseInt(hex.substring(2, 4), 16) / 255;
+  const b = parseInt(hex.substring(4, 6), 16) / 255;
+  const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return luminance > 0.5 ? "#000000" : "#ffffff";
+}
+
 export default function DemoWidget() {
   const [selectedToken, setSelectedToken] = useState(0);
   const [radius, setRadius] = useState(2);
@@ -82,12 +91,7 @@ export default function DemoWidget() {
               >
                 <p
                   className="text-sm font-medium"
-                  style={{
-                    color:
-                      token.value === "#ffffff" || token.value === "#f9f9fa" || token.value === "#e6eaeb"
-                        ? "#000000"
-                        : "#ffffff",
-                  }}
+                  style={{ color: getTextColor(token.value) }}
                 >
                   {token.semantic}
                 </p>

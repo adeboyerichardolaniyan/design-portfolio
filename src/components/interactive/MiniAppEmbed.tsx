@@ -51,10 +51,17 @@ export default function MiniAppEmbed({
     setIsDragging(false);
   }, []);
 
-  const beforeTextColor =
-    beforeColor === "#f0f0f0" || beforeColor === "#ffffff" ? "#000" : "#fff";
-  const afterTextColor =
-    afterColor === "#f0f0f0" || afterColor === "#ffffff" ? "#000" : "#fff";
+  const getTextColor = (bgColor: string) => {
+    const hex = bgColor.replace("#", "");
+    const r = parseInt(hex.substring(0, 2), 16) / 255;
+    const g = parseInt(hex.substring(2, 4), 16) / 255;
+    const b = parseInt(hex.substring(4, 6), 16) / 255;
+    const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    return luminance > 0.5 ? "#000" : "#fff";
+  };
+
+  const beforeTextColor = getTextColor(beforeColor);
+  const afterTextColor = getTextColor(afterColor);
 
   return (
     <div className="flex flex-col gap-3">
