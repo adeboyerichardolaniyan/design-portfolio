@@ -1,0 +1,72 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  speed?: number;
+}
+
+const { src, alt, class: className = "", speed = 0.15 } = Astro.props;
+---
+
+<div class:list={["parallax-container overflow-hidden rounded-[var(--radius-portfolio-lg)]", className]}>
+  <img
+    src={src}
+    alt={alt}
+    class="parallax-image w-full object-cover"
+    loading="lazy"
+    data-speed={speed}
+    style="will-change: transform;"
+  />
+</div>
+
+<style>
+  .parallax-container {
+    position: relative;
+  }
+  .parallax-image {
+    /* Slight overscale to prevent gaps during parallax */
+    transform: scale(1.1);
+  }
+</style>
+
+<script>
+  import { scroll, animate } from "motion";
+
+  let cleanups: (() => void)[] = [];
+
+  function initParallax() {
+    // Clean up previous scroll observers to prevent memory leaks
+    cleanups.forEach((cleanup) => cleanup());
+    cleanups = [];
+
+    const images = document.querySelectorAll<HTMLImageElement>(".parallax-image");
+
+    images.forEach((img) => {
+      const speed = parseFloat(img.dataset.speed || "0.15");
+      const offset = speed * 100;
+      const target = img.parentElement ?? img;
+
+      const cleanup = scroll(
+        animate(img, {
+          transform: [
+            `scale(1.1) translateY(${offset}px)`,
+            `scale(1.1) translateY(-${offset}px)`,
+          ],
+        }),
+        {
+          target,
+          offset: ["start end", "end start"],
+        },
+      );
+
+      cleanups.push(cleanup);
+    });
+  }
+
+  // Init on first load
+  initParallax();
+
+  // Re-init after View Transitions navigation
+  document.addEventListener("astro:page-load", initParallax);
+</script>

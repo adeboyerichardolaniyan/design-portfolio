@@ -1,0 +1,66 @@
+---
+interface Props {
+  class?: string;
+  delay?: number;
+}
+
+const { class: className = "", delay = 0 } = Astro.props;
+---
+
+<div class:list={["scroll-reveal", className]} data-delay={delay}>
+  <slot />
+</div>
+
+<style>
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  .scroll-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  import { inView, animate } from "motion";
+
+  let cleanups: (() => void)[] = [];
+
+  function initScrollReveals() {
+    // Clean up previous observers to prevent memory leaks
+    cleanups.forEach((cleanup) => cleanup());
+    cleanups = [];
+
+    const elements = document.querySelectorAll<HTMLElement>(".scroll-reveal:not(.revealed)");
+
+    elements.forEach((el) => {
+      const delay = parseFloat(el.dataset.delay || "0");
+
+      const cleanup = inView(
+        el,
+        () => {
+          animate(
+            el,
+            { opacity: [0, 1], transform: ["translateY(24px)", "translateY(0)"] },
+            {
+              duration: 0.6,
+              easing: [0.4, 0, 0.2, 1],
+              delay,
+            },
+          );
+          el.classList.add("revealed");
+        },
+        { amount: 0.15 },
+      );
+
+      cleanups.push(cleanup);
+    });
+  }
+
+  // Init on first load
+  initScrollReveals();
+
+  // Re-init after View Transitions navigation
+  document.addEventListener("astro:page-load", initScrollReveals);
+</script>

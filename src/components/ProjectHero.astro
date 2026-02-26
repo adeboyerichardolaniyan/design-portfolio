@@ -1,4 +1,6 @@
 ---
+import ParallaxImage from "@/components/ParallaxImage.astro";
+
 interface Props {
   src: string;
   alt: string;
@@ -8,11 +10,6 @@ interface Props {
 const { src, alt, transitionName } = Astro.props;
 ---
 
-<div class="overflow-hidden rounded-[var(--radius-portfolio-lg)] bg-[var(--color-bg-secondary)]">
-  <img
-    src={src}
-    alt={alt}
-    class="w-full object-cover"
-    transition:name={transitionName}
-  />
+<div transition:name={transitionName}>
+  <ParallaxImage src={src} alt={alt} />
 </div>
