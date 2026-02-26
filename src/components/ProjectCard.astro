@@ -1,0 +1,39 @@
+---
+interface Props {
+  title: string;
+  subtitle: string;
+  category: string;
+  coverImage: string;
+  slug: string;
+}
+
+const { title, subtitle, category, coverImage, slug } = Astro.props;
+---
+
+<a href={`/projects/${slug}`} class="group block">
+  <!-- Text: gray title + bold subtitle (matching withalim.com pattern) -->
+  <div class="mb-[var(--space-md)]">
+    <p class="text-[var(--font-size-body)] text-[var(--color-text-tertiary)]">
+      {title}
+    </p>
+    <p
+      class="text-[var(--font-size-hero)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]"
+      transition:name={`project-title-${slug}`}
+    >
+      {subtitle}
+    </p>
+  </div>
+
+  <!-- Cover image in rounded container -->
+  <div
+    class="overflow-hidden rounded-[var(--radius-portfolio-lg)] bg-[var(--color-bg-secondary)] transition-transform duration-[var(--duration-slow)] ease-[var(--easing-default)] group-hover:scale-[0.98]"
+  >
+    <img
+      src={coverImage}
+      alt={title}
+      class="w-full object-cover"
+      loading="lazy"
+      transition:name={`project-cover-${slug}`}
+    />
+  </div>
+</a>
