@@ -33,14 +33,21 @@ const { src, alt, class: className = "", speed = 0.15 } = Astro.props;
 <script>
   import { scroll, animate } from "motion";
 
+  let cleanups: (() => void)[] = [];
+
   function initParallax() {
+    // Clean up previous scroll observers to prevent memory leaks
+    cleanups.forEach((cleanup) => cleanup());
+    cleanups = [];
+
     const images = document.querySelectorAll<HTMLImageElement>(".parallax-image");
 
     images.forEach((img) => {
       const speed = parseFloat(img.dataset.speed || "0.15");
       const offset = speed * 100;
+      const target = img.parentElement ?? img;
 
-      scroll(
+      const cleanup = scroll(
         animate(img, {
           transform: [
             `scale(1.1) translateY(${offset}px)`,
@@ -48,10 +55,12 @@ const { src, alt, class: className = "", speed = 0.15 } = Astro.props;
           ],
         }),
         {
-          target: img.parentElement!,
+          target,
           offset: ["start end", "end start"],
         },
       );
+
+      cleanups.push(cleanup);
     });
   }
 

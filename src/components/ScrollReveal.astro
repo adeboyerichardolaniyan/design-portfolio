@@ -25,13 +25,19 @@ const { class: className = "", delay = 0 } = Astro.props;
 <script>
   import { inView, animate } from "motion";
 
+  let cleanups: (() => void)[] = [];
+
   function initScrollReveals() {
+    // Clean up previous observers to prevent memory leaks
+    cleanups.forEach((cleanup) => cleanup());
+    cleanups = [];
+
     const elements = document.querySelectorAll<HTMLElement>(".scroll-reveal:not(.revealed)");
 
     elements.forEach((el) => {
       const delay = parseFloat(el.dataset.delay || "0");
 
-      inView(
+      const cleanup = inView(
         el,
         () => {
           animate(
@@ -47,6 +53,8 @@ const { class: className = "", delay = 0 } = Astro.props;
         },
         { amount: 0.15 },
       );
+
+      cleanups.push(cleanup);
     });
   }
 
