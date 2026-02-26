@@ -2,6 +2,7 @@
 import Base from "./Base.astro";
 import ProjectHero from "@/components/ProjectHero.astro";
 import ProjectMeta from "@/components/ProjectMeta.astro";
+import ScrollReveal from "@/components/ScrollReveal.astro";
 
 interface Props {
   slug: string;
@@ -36,56 +37,66 @@ const { slug, frontmatter } = Astro.props;
 
     <!-- Project Header + Description -->
     <div class="grid grid-cols-1 gap-x-[var(--space-lg)] gap-y-[var(--space-md)] pt-[var(--space-lg)] lg:grid-cols-[1fr_2fr]">
-      <div>
-        <h1
-          class="text-[var(--font-size-heading)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]"
-          transition:name={`project-title-${slug}`}
-        >
-          {frontmatter.title}
-        </h1>
-        <p class="mt-[var(--space-xs)] text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">
-          {frontmatter.category}
-        </p>
-      </div>
+      <ScrollReveal>
+        <div>
+          <h1
+            class="text-[var(--font-size-heading)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]"
+            transition:name={`project-title-${slug}`}
+          >
+            {frontmatter.title}
+          </h1>
+          <p class="mt-[var(--space-xs)] text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">
+            {frontmatter.category}
+          </p>
+        </div>
+      </ScrollReveal>
 
-      <div>
-        <p class="text-[var(--font-size-body)] leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
-          {frontmatter.description}
-        </p>
-      </div>
+      <ScrollReveal delay={0.1}>
+        <div>
+          <p class="text-[var(--font-size-body)] leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
+            {frontmatter.description}
+          </p>
+        </div>
+      </ScrollReveal>
     </div>
 
     <!-- Metadata Grid -->
-    <div class="mt-[var(--space-lg)]">
-      <ProjectMeta
-        role={frontmatter.role}
-        collaborators={frontmatter.collaborators}
-        duration={frontmatter.duration}
-        tools={frontmatter.tools}
-      />
-    </div>
+    <ScrollReveal delay={0.15}>
+      <div class="mt-[var(--space-lg)]">
+        <ProjectMeta
+          role={frontmatter.role}
+          collaborators={frontmatter.collaborators}
+          duration={frontmatter.duration}
+          tools={frontmatter.tools}
+        />
+      </div>
+    </ScrollReveal>
 
     <!-- External Links -->
     {frontmatter.links && frontmatter.links.length > 0 && (
-      <div class="mt-[var(--space-lg)] grid grid-cols-1 gap-[var(--space-sm)] sm:grid-cols-2">
-        {frontmatter.links.map((link) => (
-          <a
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center justify-between rounded-[var(--radius-portfolio-md)] border border-[var(--color-border-custom)] px-6 py-4 text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-primary)] transition-colors duration-[var(--duration-fast)] hover:bg-[var(--color-bg-secondary)]"
-          >
-            <span>{link.label}</span>
-            <span>&rsaquo;</span>
-          </a>
-        ))}
-      </div>
+      <ScrollReveal delay={0.2}>
+        <div class="mt-[var(--space-lg)] grid grid-cols-1 gap-[var(--space-sm)] sm:grid-cols-2">
+          {frontmatter.links.map((link) => (
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center justify-between rounded-[var(--radius-portfolio-md)] border border-[var(--color-border-custom)] px-6 py-4 text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-primary)] transition-colors duration-[var(--duration-fast)] hover:bg-[var(--color-bg-secondary)]"
+            >
+              <span>{link.label}</span>
+              <span>&rsaquo;</span>
+            </a>
+          ))}
+        </div>
+      </ScrollReveal>
     )}
 
     <!-- MDX Content -->
-    <div class="prose-portfolio mt-[var(--space-xl)] pb-[var(--space-xl)]">
-      <slot />
-    </div>
+    <ScrollReveal delay={0.2}>
+      <div class="prose-portfolio mt-[var(--space-xl)] pb-[var(--space-xl)]">
+        <slot />
+      </div>
+    </ScrollReveal>
   </article>
 </Base>
 

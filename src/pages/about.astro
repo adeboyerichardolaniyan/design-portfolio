@@ -1,73 +1,86 @@
 ---
 import Base from "@/layouts/Base.astro";
+import ScrollReveal from "@/components/ScrollReveal.astro";
 ---
 
 <Base title="About — Portfolio" description="About me">
   <section class="mx-auto max-w-[var(--content-max-width)] px-[var(--content-padding)] pt-[var(--space-xl)] pb-[var(--space-xl)]">
     <div class="grid grid-cols-1 gap-[var(--space-lg)] lg:grid-cols-[1fr_2fr]">
       <!-- Left column -->
-      <div>
-        <h1 class="text-[var(--font-size-heading)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]">
-          About
-        </h1>
-      </div>
+      <ScrollReveal>
+        <div>
+          <h1 class="text-[var(--font-size-heading)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]">
+            About
+          </h1>
+        </div>
+      </ScrollReveal>
 
       <!-- Right column -->
       <div class="flex flex-col gap-[var(--space-md)]">
-        <p class="text-[var(--font-size-hero)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]">
-          A designer focused on building thoughtful, well-crafted digital products.
-        </p>
+        <ScrollReveal delay={0.05}>
+          <p class="text-[var(--font-size-hero)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]">
+            A designer focused on building thoughtful, well-crafted digital products.
+          </p>
+        </ScrollReveal>
 
-        <p class="text-[var(--font-size-body)] leading-[var(--line-height-body)] text-[var(--color-text-secondary)]">
-          With experience spanning product design, design systems, and creative
-          tooling, I work at the intersection of design and engineering. I care
-          deeply about the details — typography, spacing, motion, and the small
-          interactions that make software feel alive.
-        </p>
+        <ScrollReveal delay={0.1}>
+          <p class="text-[var(--font-size-body)] leading-[var(--line-height-body)] text-[var(--color-text-secondary)]">
+            With experience spanning product design, design systems, and creative
+            tooling, I work at the intersection of design and engineering. I care
+            deeply about the details — typography, spacing, motion, and the small
+            interactions that make software feel alive.
+          </p>
+        </ScrollReveal>
 
-        <p class="text-[var(--font-size-body)] leading-[var(--line-height-body)] text-[var(--color-text-secondary)]">
-          Previously, I've worked with teams at startups and larger companies,
-          helping ship products used by millions. I'm currently focused on
-          exploring AI-powered creative tools and immersive interfaces.
-        </p>
+        <ScrollReveal delay={0.15}>
+          <p class="text-[var(--font-size-body)] leading-[var(--line-height-body)] text-[var(--color-text-secondary)]">
+            Previously, I've worked with teams at startups and larger companies,
+            helping ship products used by millions. I'm currently focused on
+            exploring AI-powered creative tools and immersive interfaces.
+          </p>
+        </ScrollReveal>
 
         <!-- Contact -->
-        <div class="mt-[var(--space-md)] border-t border-[var(--color-border-custom)] pt-[var(--space-md)]">
-          <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">
-            Get in touch
-          </p>
-          <div class="mt-[var(--space-sm)] flex flex-col gap-[var(--space-xs)]">
-            <a
-              href="mailto:hello@example.com"
-              class="text-[var(--color-text-primary)] underline underline-offset-2 transition-colors duration-[var(--duration-fast)] hover:text-[var(--color-text-secondary)]"
-            >
-              hello@example.com
-            </a>
+        <ScrollReveal delay={0.2}>
+          <div class="mt-[var(--space-md)] border-t border-[var(--color-border-custom)] pt-[var(--space-md)]">
+            <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">
+              Get in touch
+            </p>
+            <div class="mt-[var(--space-sm)] flex flex-col gap-[var(--space-xs)]">
+              <a
+                href="mailto:hello@example.com"
+                class="text-[var(--color-text-primary)] underline underline-offset-2 transition-colors duration-[var(--duration-fast)] hover:text-[var(--color-text-secondary)]"
+              >
+                hello@example.com
+              </a>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
 
         <!-- Experience -->
-        <div class="mt-[var(--space-md)] border-t border-[var(--color-border-custom)] pt-[var(--space-md)]">
-          <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">
-            Experience
-          </p>
-          <div class="mt-[var(--space-sm)] flex flex-col gap-[var(--space-sm)]">
-            <div class="flex justify-between">
-              <div>
-                <p class="font-[var(--font-weight-bold)] text-[var(--color-text-primary)]">Company Name</p>
-                <p class="text-[var(--font-size-caption)] text-[var(--color-text-secondary)]">Senior Product Designer</p>
+        <ScrollReveal delay={0.25}>
+          <div class="mt-[var(--space-md)] border-t border-[var(--color-border-custom)] pt-[var(--space-md)]">
+            <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">
+              Experience
+            </p>
+            <div class="mt-[var(--space-sm)] flex flex-col gap-[var(--space-sm)]">
+              <div class="flex justify-between">
+                <div>
+                  <p class="font-[var(--font-weight-bold)] text-[var(--color-text-primary)]">Company Name</p>
+                  <p class="text-[var(--font-size-caption)] text-[var(--color-text-secondary)]">Senior Product Designer</p>
+                </div>
+                <p class="text-[var(--font-size-caption)] text-[var(--color-text-tertiary)]">2024 — Present</p>
               </div>
-              <p class="text-[var(--font-size-caption)] text-[var(--color-text-tertiary)]">2024 — Present</p>
-            </div>
-            <div class="flex justify-between">
-              <div>
-                <p class="font-[var(--font-weight-bold)] text-[var(--color-text-primary)]">Previous Co.</p>
-                <p class="text-[var(--font-size-caption)] text-[var(--color-text-secondary)]">Product Designer</p>
+              <div class="flex justify-between">
+                <div>
+                  <p class="font-[var(--font-weight-bold)] text-[var(--color-text-primary)]">Previous Co.</p>
+                  <p class="text-[var(--font-size-caption)] text-[var(--color-text-secondary)]">Product Designer</p>
+                </div>
+                <p class="text-[var(--font-size-caption)] text-[var(--color-text-tertiary)]">2022 — 2024</p>
               </div>
-              <p class="text-[var(--font-size-caption)] text-[var(--color-text-tertiary)]">2022 — 2024</p>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </div>
   </section>

@@ -1,6 +1,7 @@
 ---
 import Base from "@/layouts/Base.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
+import ScrollReveal from "@/components/ScrollReveal.astro";
 import { getCollection } from "astro:content";
 
 const projects = (await getCollection("projects"))
@@ -12,32 +13,40 @@ const projects = (await getCollection("projects"))
   <!-- Hero Section — massive whitespace, centered bold bio -->
   <section class="flex min-h-[85vh] items-center px-[var(--content-padding)]">
     <div class="mx-auto max-w-3xl">
-      <p class="text-[var(--font-size-hero)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]">
-        A designer with over a decade of experience, building products
-        and leading design teams. Collaborating with companies and startups
-        on interaction design, early concepts, 0 &gt; 1, and prototypes.
-      </p>
-      <p class="mt-[var(--space-md)] text-[var(--font-size-hero)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]">
-        Currently dedicated to developing immersive products within the
-        artificial intelligence space.
-      </p>
-      <p class="mt-[var(--space-md)] text-[var(--font-size-body)] text-[var(--color-text-secondary)]">
-        Open for selected opportunities at <a href="mailto:hello@example.com" class="text-[var(--color-text-primary)] underline underline-offset-2">hello@example.com</a>
-      </p>
+      <ScrollReveal>
+        <p class="text-[var(--font-size-hero)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]">
+          A designer with over a decade of experience, building products
+          and leading design teams. Collaborating with companies and startups
+          on interaction design, early concepts, 0 &gt; 1, and prototypes.
+        </p>
+      </ScrollReveal>
+      <ScrollReveal delay={0.1}>
+        <p class="mt-[var(--space-md)] text-[var(--font-size-hero)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]">
+          Currently dedicated to developing immersive products within the
+          artificial intelligence space.
+        </p>
+      </ScrollReveal>
+      <ScrollReveal delay={0.2}>
+        <p class="mt-[var(--space-md)] text-[var(--font-size-body)] text-[var(--color-text-secondary)]">
+          Open for selected opportunities at <a href="mailto:hello@example.com" class="text-[var(--color-text-primary)] underline underline-offset-2">hello@example.com</a>
+        </p>
+      </ScrollReveal>
     </div>
   </section>
 
   <!-- Projects Section -->
   <section id="projects" class="mx-auto max-w-[var(--content-max-width)] px-[var(--content-padding)] pb-[var(--space-xl)]">
     <div class="flex flex-col gap-[var(--space-xl)]">
-      {projects.map((project) => (
-        <ProjectCard
-          title={project.data.title}
-          subtitle={project.data.subtitle}
-          category={project.data.category}
-          coverImage={project.data.coverImage}
-          slug={project.id}
-        />
+      {projects.map((project, i) => (
+        <ScrollReveal delay={i * 0.05}>
+          <ProjectCard
+            title={project.data.title}
+            subtitle={project.data.subtitle}
+            category={project.data.category}
+            coverImage={project.data.coverImage}
+            slug={project.id}
+          />
+        </ScrollReveal>
       ))}
     </div>
   </section>
