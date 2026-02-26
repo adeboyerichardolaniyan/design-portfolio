@@ -1,4 +1,3 @@
-"use client";
 /**
  * Note: Use position fixed according to your needs
  * Desktop navbar is better positioned at the bottom
@@ -82,6 +81,8 @@ const FloatingDockMobile = ({
       </AnimatePresence>
       <button
         onClick={() => setOpen(!open)}
+        aria-label="Navigation menu"
+        aria-expanded={open}
         className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-50 dark:bg-neutral-800"
       >
         <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />

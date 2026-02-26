@@ -61,8 +61,10 @@ export default function Nav() {
                   <button
                     onClick={(e) => {
                       e.preventDefault();
+                      e.stopPropagation();
                       toggleTheme();
                     }}
+                    aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
                     className="h-full w-full flex items-center justify-center"
                   >
                     {item.icon}
