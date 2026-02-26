@@ -26,7 +26,9 @@ const {
     <!-- Anti-FOUC: apply dark mode before paint -->
     <script is:inline>
       (function () {
-        const theme = localStorage.getItem("theme");
+        try {
+          var theme = localStorage.getItem("theme");
+        } catch (e) {}
         if (
           theme === "dark" ||
           (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
@@ -48,8 +50,10 @@ const {
 
     <!-- Re-apply theme after View Transitions swap -->
     <script is:inline>
-      document.addEventListener("astro:after-swap", () => {
-        const theme = localStorage.getItem("theme");
+      document.addEventListener("astro:after-swap", function () {
+        try {
+          var theme = localStorage.getItem("theme");
+        } catch (e) {}
         if (
           theme === "dark" ||
           (!theme &&
