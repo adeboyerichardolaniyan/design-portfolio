@@ -1,0 +1,165 @@
+---
+import Base from "./Base.astro";
+
+interface Props {
+  frontmatter: {
+    title: string;
+    subtitle: string;
+    category: string;
+    description: string;
+    role: string;
+    tools: string[];
+    duration: string;
+    collaborators?: string[];
+    coverImage: string;
+    color?: string;
+    links?: { label: string; url: string }[];
+  };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<Base title={`${frontmatter.title} — Portfolio`} description={frontmatter.subtitle}>
+  <article class="mx-auto max-w-[var(--content-max-width)] px-[var(--content-padding)]">
+    <!-- Hero Image -->
+    <div class="pt-[var(--space-lg)]">
+      <div class="overflow-hidden rounded-[var(--radius-portfolio-lg)] bg-[var(--color-bg-secondary)]">
+        <img
+          src={frontmatter.coverImage}
+          alt={frontmatter.title}
+          class="w-full object-cover"
+          transition:name={`project-cover-${frontmatter.title.toLowerCase().replace(/\s+/g, "-")}`}
+        />
+      </div>
+    </div>
+
+    <!-- Project Header + Description -->
+    <div class="grid grid-cols-1 gap-x-[var(--space-lg)] gap-y-[var(--space-md)] pt-[var(--space-lg)] lg:grid-cols-[1fr_2fr]">
+      <!-- Left: Title + Category -->
+      <div>
+        <h1
+          class="text-[var(--font-size-heading)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]"
+          transition:name={`project-title-${frontmatter.title.toLowerCase().replace(/\s+/g, "-")}`}
+        >
+          {frontmatter.title}
+        </h1>
+        <p class="mt-[var(--space-xs)] text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">
+          {frontmatter.category}
+        </p>
+      </div>
+
+      <!-- Right: Description -->
+      <div>
+        <p class="text-[var(--font-size-body)] leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
+          {frontmatter.description}
+        </p>
+      </div>
+    </div>
+
+    <!-- Metadata Grid -->
+    <div class="grid grid-cols-2 gap-[var(--space-md)] border-t border-[var(--color-border-custom)] pt-[var(--space-md)] mt-[var(--space-lg)] lg:grid-cols-4">
+      <div>
+        <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">Role</p>
+        <p class="mt-[var(--space-xs)] text-[var(--color-text-primary)]">{frontmatter.role}</p>
+      </div>
+
+      {frontmatter.collaborators && frontmatter.collaborators.length > 0 && (
+        <div>
+          <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">Collaborators</p>
+          <div class="mt-[var(--space-xs)]">
+            {frontmatter.collaborators.map((name) => (
+              <p class="text-[var(--color-text-primary)]">{name}</p>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div>
+        <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">Duration</p>
+        <p class="mt-[var(--space-xs)] text-[var(--color-text-primary)]">{frontmatter.duration}</p>
+      </div>
+
+      <div>
+        <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">Tools</p>
+        <div class="mt-[var(--space-xs)]">
+          {frontmatter.tools.map((tool) => (
+            <p class="text-[var(--color-text-primary)]">{tool}</p>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- External Links -->
+    {frontmatter.links && frontmatter.links.length > 0 && (
+      <div class="mt-[var(--space-lg)] grid grid-cols-1 gap-[var(--space-sm)] sm:grid-cols-2">
+        {frontmatter.links.map((link) => (
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center justify-between rounded-[var(--radius-portfolio-md)] border border-[var(--color-border-custom)] px-6 py-4 text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-primary)] transition-colors duration-[var(--duration-fast)] hover:bg-[var(--color-bg-secondary)]"
+          >
+            <span>{link.label}</span>
+            <span>&rsaquo;</span>
+          </a>
+        ))}
+      </div>
+    )}
+
+    <!-- MDX Content -->
+    <div class="prose-portfolio mt-[var(--space-xl)] pb-[var(--space-xl)]">
+      <slot />
+    </div>
+  </article>
+</Base>
+
+<style>
+  /* Prose styles for MDX content */
+  .prose-portfolio :global(h2) {
+    font-size: var(--font-size-heading);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    color: var(--color-text-primary);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+  }
+  .prose-portfolio :global(h3) {
+    font-size: 1.25rem;
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    color: var(--color-text-primary);
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-xs);
+  }
+  .prose-portfolio :global(p) {
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-sm);
+  }
+  .prose-portfolio :global(img) {
+    width: 100%;
+    border-radius: var(--radius-portfolio-lg);
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+  .prose-portfolio :global(ul),
+  .prose-portfolio :global(ol) {
+    padding-left: 1.5em;
+    margin-bottom: var(--space-sm);
+  }
+  .prose-portfolio :global(li) {
+    margin-bottom: var(--space-xs);
+  }
+  .prose-portfolio :global(a) {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .prose-portfolio :global(blockquote) {
+    border-left: 3px solid var(--color-border-custom);
+    padding-left: var(--space-sm);
+    color: var(--color-text-secondary);
+    font-style: italic;
+  }
+</style>
