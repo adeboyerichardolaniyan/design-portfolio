@@ -4,6 +4,7 @@ import ProjectHero from "@/components/ProjectHero.astro";
 import ProjectMeta from "@/components/ProjectMeta.astro";
 
 interface Props {
+  slug: string;
   frontmatter: {
     title: string;
     subtitle: string;
@@ -19,8 +20,7 @@ interface Props {
   };
 }
 
-const { frontmatter } = Astro.props;
-const slugId = frontmatter.title.toLowerCase().replace(/\s+/g, "-");
+const { slug, frontmatter } = Astro.props;
 ---
 
 <Base title={`${frontmatter.title} — Portfolio`} description={frontmatter.subtitle}>
@@ -30,7 +30,7 @@ const slugId = frontmatter.title.toLowerCase().replace(/\s+/g, "-");
       <ProjectHero
         src={frontmatter.coverImage}
         alt={frontmatter.title}
-        transitionName={`project-cover-${slugId}`}
+        transitionName={`project-cover-${slug}`}
       />
     </div>
 
@@ -39,7 +39,7 @@ const slugId = frontmatter.title.toLowerCase().replace(/\s+/g, "-");
       <div>
         <h1
           class="text-[var(--font-size-heading)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]"
-          transition:name={`project-title-${slugId}`}
+          transition:name={`project-title-${slug}`}
         >
           {frontmatter.title}
         </h1>

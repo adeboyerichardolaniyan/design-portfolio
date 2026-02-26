@@ -8,7 +8,6 @@ interface Props {
 }
 
 const { title, subtitle, category, coverImage, slug } = Astro.props;
-const slugId = title.toLowerCase().replace(/\s+/g, "-");
 ---
 
 <a href={`/projects/${slug}`} class="group block">
@@ -19,7 +18,7 @@ const slugId = title.toLowerCase().replace(/\s+/g, "-");
     </p>
     <p
       class="text-[var(--font-size-hero)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]"
-      transition:name={`project-title-${slugId}`}
+      transition:name={`project-title-${slug}`}
     >
       {subtitle}
     </p>
@@ -34,7 +33,7 @@ const slugId = title.toLowerCase().replace(/\s+/g, "-");
       alt={title}
       class="w-full object-cover"
       loading="lazy"
-      transition:name={`project-cover-${slugId}`}
+      transition:name={`project-cover-${slug}`}
     />
   </div>
 </a>
