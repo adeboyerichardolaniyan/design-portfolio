@@ -16,6 +16,8 @@ links:
     url: "#"
 ---
 
+import MiniAppEmbed from "@/components/interactive/MiniAppEmbed.tsx";
+
 ## Spatial Metaphor
 
 Traditional data tools force users into rigid structures — rows, columns, hierarchies. Atlas breaks free by treating data points as locations in a navigable space, where proximity implies relationship.
@@ -23,6 +25,17 @@ Traditional data tools force users into rigid structures — rows, columns, hier
 ## Interaction Design
 
 The core interaction model borrows from digital maps: pinch to zoom reveals more detail, pan to explore adjacent clusters, and tap to drill into individual data points.
+
+Drag the slider to compare the evolution from wireframe to final interface:
+
+<MiniAppEmbed
+  client:visible
+  beforeLabel="Wireframe"
+  afterLabel="Final UI"
+  beforeColor="#f0f0f0"
+  afterColor="#1a1a2e"
+  caption="Atlas interface — from wireframe to polished spatial data view"
+/>
 
 ## Visual System
 
