@@ -1,5 +1,7 @@
 ---
 import Base from "./Base.astro";
+import ProjectHero from "@/components/ProjectHero.astro";
+import ProjectMeta from "@/components/ProjectMeta.astro";
 
 interface Props {
   frontmatter: {
@@ -18,29 +20,26 @@ interface Props {
 }
 
 const { frontmatter } = Astro.props;
+const slugId = frontmatter.title.toLowerCase().replace(/\s+/g, "-");
 ---
 
 <Base title={`${frontmatter.title} — Portfolio`} description={frontmatter.subtitle}>
   <article class="mx-auto max-w-[var(--content-max-width)] px-[var(--content-padding)]">
     <!-- Hero Image -->
     <div class="pt-[var(--space-lg)]">
-      <div class="overflow-hidden rounded-[var(--radius-portfolio-lg)] bg-[var(--color-bg-secondary)]">
-        <img
-          src={frontmatter.coverImage}
-          alt={frontmatter.title}
-          class="w-full object-cover"
-          transition:name={`project-cover-${frontmatter.title.toLowerCase().replace(/\s+/g, "-")}`}
-        />
-      </div>
+      <ProjectHero
+        src={frontmatter.coverImage}
+        alt={frontmatter.title}
+        transitionName={`project-cover-${slugId}`}
+      />
     </div>
 
     <!-- Project Header + Description -->
     <div class="grid grid-cols-1 gap-x-[var(--space-lg)] gap-y-[var(--space-md)] pt-[var(--space-lg)] lg:grid-cols-[1fr_2fr]">
-      <!-- Left: Title + Category -->
       <div>
         <h1
           class="text-[var(--font-size-heading)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]"
-          transition:name={`project-title-${frontmatter.title.toLowerCase().replace(/\s+/g, "-")}`}
+          transition:name={`project-title-${slugId}`}
         >
           {frontmatter.title}
         </h1>
@@ -49,7 +48,6 @@ const { frontmatter } = Astro.props;
         </p>
       </div>
 
-      <!-- Right: Description -->
       <div>
         <p class="text-[var(--font-size-body)] leading-[var(--line-height-body)] text-[var(--color-text-primary)]">
           {frontmatter.description}
@@ -58,36 +56,13 @@ const { frontmatter } = Astro.props;
     </div>
 
     <!-- Metadata Grid -->
-    <div class="grid grid-cols-2 gap-[var(--space-md)] border-t border-[var(--color-border-custom)] pt-[var(--space-md)] mt-[var(--space-lg)] lg:grid-cols-4">
-      <div>
-        <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">Role</p>
-        <p class="mt-[var(--space-xs)] text-[var(--color-text-primary)]">{frontmatter.role}</p>
-      </div>
-
-      {frontmatter.collaborators && frontmatter.collaborators.length > 0 && (
-        <div>
-          <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">Collaborators</p>
-          <div class="mt-[var(--space-xs)]">
-            {frontmatter.collaborators.map((name) => (
-              <p class="text-[var(--color-text-primary)]">{name}</p>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <div>
-        <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">Duration</p>
-        <p class="mt-[var(--space-xs)] text-[var(--color-text-primary)]">{frontmatter.duration}</p>
-      </div>
-
-      <div>
-        <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">Tools</p>
-        <div class="mt-[var(--space-xs)]">
-          {frontmatter.tools.map((tool) => (
-            <p class="text-[var(--color-text-primary)]">{tool}</p>
-          ))}
-        </div>
-      </div>
+    <div class="mt-[var(--space-lg)]">
+      <ProjectMeta
+        role={frontmatter.role}
+        collaborators={frontmatter.collaborators}
+        duration={frontmatter.duration}
+        tools={frontmatter.tools}
+      />
     </div>
 
     <!-- External Links -->
@@ -115,7 +90,6 @@ const { frontmatter } = Astro.props;
 </Base>
 
 <style>
-  /* Prose styles for MDX content */
   .prose-portfolio :global(h2) {
     font-size: var(--font-size-heading);
     font-weight: var(--font-weight-bold);

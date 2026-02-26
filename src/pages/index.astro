@@ -1,13 +1,44 @@
 ---
 import Base from "@/layouts/Base.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
+import { getCollection } from "astro:content";
+
+const projects = (await getCollection("projects"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Base title="Portfolio" description="Design Portfolio">
-  <section class="flex min-h-screen items-center justify-center px-[var(--content-padding)]">
+  <!-- Hero Section — massive whitespace, centered bold bio -->
+  <section class="flex min-h-[85vh] items-center px-[var(--content-padding)]">
     <div class="mx-auto max-w-3xl">
       <p class="text-[var(--font-size-hero)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]">
-        Placeholder hero text. This will be replaced with the real bio in Phase 2.
+        A designer with over a decade of experience, building products
+        and leading design teams. Collaborating with companies and startups
+        on interaction design, early concepts, 0 &gt; 1, and prototypes.
       </p>
+      <p class="mt-[var(--space-md)] text-[var(--font-size-hero)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]">
+        Currently dedicated to developing immersive products within the
+        artificial intelligence space.
+      </p>
+      <p class="mt-[var(--space-md)] text-[var(--font-size-body)] text-[var(--color-text-secondary)]">
+        Open for selected opportunities at <a href="mailto:hello@example.com" class="text-[var(--color-text-primary)] underline underline-offset-2">hello@example.com</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="mx-auto max-w-[var(--content-max-width)] px-[var(--content-padding)] pb-[var(--space-xl)]">
+    <div class="flex flex-col gap-[var(--space-xl)]">
+      {projects.map((project) => (
+        <ProjectCard
+          title={project.data.title}
+          subtitle={project.data.subtitle}
+          category={project.data.category}
+          coverImage={project.data.coverImage}
+          slug={project.id}
+        />
+      ))}
     </div>
   </section>
 </Base>

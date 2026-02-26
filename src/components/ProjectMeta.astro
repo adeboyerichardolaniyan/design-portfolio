@@ -1,0 +1,50 @@
+---
+interface Props {
+  role: string;
+  collaborators?: string[];
+  duration: string;
+  tools: string[];
+}
+
+const { role, collaborators, duration, tools } = Astro.props;
+---
+
+<div class="grid grid-cols-2 gap-[var(--space-md)] border-t border-[var(--color-border-custom)] pt-[var(--space-md)] lg:grid-cols-4">
+  <div>
+    <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">
+      Role
+    </p>
+    <p class="mt-[var(--space-xs)] text-[var(--color-text-primary)]">{role}</p>
+  </div>
+
+  {collaborators && collaborators.length > 0 && (
+    <div>
+      <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">
+        Collaborators
+      </p>
+      <div class="mt-[var(--space-xs)]">
+        {collaborators.map((name) => (
+          <p class="text-[var(--color-text-primary)]">{name}</p>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <div>
+    <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">
+      Duration
+    </p>
+    <p class="mt-[var(--space-xs)] text-[var(--color-text-primary)]">{duration}</p>
+  </div>
+
+  <div>
+    <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">
+      Tools
+    </p>
+    <div class="mt-[var(--space-xs)]">
+      {tools.map((tool) => (
+        <p class="text-[var(--color-text-primary)]">{tool}</p>
+      ))}
+    </div>
+  </div>
+</div>

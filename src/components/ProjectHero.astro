@@ -1,0 +1,18 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  transitionName?: string;
+}
+
+const { src, alt, transitionName } = Astro.props;
+---
+
+<div class="overflow-hidden rounded-[var(--radius-portfolio-lg)] bg-[var(--color-bg-secondary)]">
+  <img
+    src={src}
+    alt={alt}
+    class="w-full object-cover"
+    transition:name={transitionName}
+  />
+</div>
