@@ -1,4 +1,5 @@
 import { FloatingDock } from "@/components/ui/floating-dock";
+import type { DockItem } from "@/components/ui/floating-dock";
 import {
   IconHome,
   IconBriefcase,
@@ -22,7 +23,7 @@ export default function Nav() {
     localStorage.setItem("theme", next ? "dark" : "light");
   }
 
-  const items = [
+  const items: DockItem[] = [
     {
       title: "Home",
       icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
@@ -39,41 +40,20 @@ export default function Nav() {
       href: "/about",
     },
     {
-      title: isDark ? "Light Mode" : "Dark Mode",
+      title: isDark ? "Switch to light mode" : "Switch to dark mode",
       icon: isDark ? (
         <IconSun className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ) : (
         <IconMoon className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
       href: "#",
+      onClick: () => toggleTheme(),
     },
   ];
 
   return (
     <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2">
-      <FloatingDock
-        items={items.map((item) =>
-          item.title === "Light Mode" || item.title === "Dark Mode"
-            ? {
-                ...item,
-                href: "#",
-                icon: (
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      toggleTheme();
-                    }}
-                    aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-                    className="h-full w-full flex items-center justify-center"
-                  >
-                    {item.icon}
-                  </button>
-                ),
-              }
-            : item
-        )}
-      />
+      <FloatingDock items={items} />
     </div>
   );
 }
