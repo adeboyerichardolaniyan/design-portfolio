@@ -21,7 +21,6 @@ const { title, subtitle, category, coverImage, slug, loading = "lazy" } = Astro.
     </p>
     <p
       class="text-[var(--font-size-hero)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]"
-      transition:name={`project-title-${slug}`}
     >
       {subtitle}
     </p>
@@ -29,7 +28,6 @@ const { title, subtitle, category, coverImage, slug, loading = "lazy" } = Astro.
 
   <!-- Cover image in rounded container -->
   <div
-    transition:name={`project-cover-${slug}`}
     class="overflow-hidden rounded-[var(--radius-portfolio-lg)] bg-[var(--color-bg-secondary)] transition-transform duration-[var(--duration-slow)] ease-[var(--easing-default)] group-hover:scale-[0.98]"
   >
     <ParallaxImage
@@ -37,8 +35,8 @@ const { title, subtitle, category, coverImage, slug, loading = "lazy" } = Astro.
       alt={title}
       class="w-full object-cover"
       loading={loading}
-      fetchpriority={loading === "eager" ? "high" : "auto"}
-      data-project-cover
+      fetchPriority={loading === "eager" ? "high" : "auto"}
+      dataProjectCover={true}
     />
   </div>
 </a>

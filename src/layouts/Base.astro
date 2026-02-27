@@ -65,9 +65,7 @@ const {
         try {
           if (sessionStorage.getItem("returningFromProject") === "1") {
             sessionStorage.removeItem("returningFromProject");
-            requestAnimationFrame(function () {
-              wakeLazyProjectImages();
-            });
+            wakeLazyProjectImages();
           }
         } catch (err) {}
       }
@@ -95,6 +93,9 @@ const {
         } else {
           document.documentElement.classList.remove("dark");
         }
+
+        // Immediately switch any lazy project images to eager (cached from first visit)
+        wakeLazyProjectImages();
 
         // Scroll restoration — instant, before transition reveals the page
         var path = window.location.pathname;

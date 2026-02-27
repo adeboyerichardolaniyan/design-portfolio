@@ -6,6 +6,7 @@ interface Props {
   speed?: number;
   loading?: "lazy" | "eager" | "auto";
   fetchPriority?: "high" | "low" | "auto";
+  dataProjectCover?: boolean;
 }
 
 const {
@@ -15,6 +16,7 @@ const {
   speed = 0.15,
   loading = "auto",
   fetchPriority = "auto",
+  dataProjectCover = false,
 } = Astro.props;
 
 const imageLoading = loading === "lazy" || loading === "eager" ? loading : undefined;
@@ -29,6 +31,7 @@ const imageLoading = loading === "lazy" || loading === "eager" ? loading : undef
     fetchpriority={fetchPriority}
     decoding="async"
     data-speed={speed}
+    data-project-cover={dataProjectCover ? "" : undefined}
     style="will-change: transform;"
   />
 </div>
