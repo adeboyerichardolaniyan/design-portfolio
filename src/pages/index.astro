@@ -72,16 +72,43 @@ const projects = (await getCollection("projects"))
       const shouldHydrate =
         navEntry?.type === "back_forward" || referrer.includes("/projects/");
 
-      if (!shouldHydrate) return;
+      if (!shouldHydrate) {
+        try {
+          const cameFromProject =
+            sessionStorage.getItem("cameFromProjectPage") === "1";
+          if (!cameFromProject) return;
+        } catch (_error) {
+          return;
+        }
+      }
 
-      const lazyProjectImages = document.querySelectorAll('img[data-project-cover][loading="lazy"]');
+      try {
+        sessionStorage.removeItem("cameFromProjectPage");
+      } catch (_error) {}
+
+      const lazyProjectImages = document.querySelectorAll<HTMLImageElement>(
+        'img[data-project-cover][loading="lazy"]',
+      );
 
       lazyProjectImages.forEach((img) => {
+        if (img.complete && img.naturalWidth > 0) return;
+
         img.loading = "eager";
+
+        const src = img.getAttribute("src");
+        if (!src) return;
+
+        const preloader = new Image();
+        preloader.onload = () => {
+          img.src = src;
+        };
+        preloader.src = src;
       });
     }
 
     document.addEventListener("astro:page-load", hydrateLazyProjectImages);
+    document.addEventListener("astro:after-swap", hydrateLazyProjectImages);
+    window.addEventListener("popstate", () => requestAnimationFrame(hydrateLazyProjectImages));
     window.addEventListener("pageshow", (event) => {
       if (event.persisted) {
         hydrateLazyProjectImages();
