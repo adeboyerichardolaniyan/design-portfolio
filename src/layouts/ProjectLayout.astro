@@ -150,13 +150,3 @@ const { slug, frontmatter } = Astro.props;
     font-style: italic;
   }
 </style>
-
-<script is:inline>
-  document.addEventListener("astro:page-load", () => {
-    try {
-      sessionStorage.setItem("cameFromProjectPage", "1");
-    } catch (_error) {
-      // sessionStorage may be unavailable in some browser modes.
-    }
-  });
-</script>
