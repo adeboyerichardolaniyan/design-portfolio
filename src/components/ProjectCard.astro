@@ -7,19 +7,10 @@ interface Props {
   category: string;
   coverImage: string;
   slug: string;
-  loading?: "lazy" | "eager" | "auto";
-  fetchPriority?: "high" | "low" | "auto";
+  loading?: "lazy" | "eager";
 }
 
-const {
-  title,
-  subtitle,
-  category,
-  coverImage,
-  slug,
-  loading = "auto",
-  fetchPriority = "auto",
-} = Astro.props;
+const { title, subtitle, category, coverImage, slug, loading = "lazy" } = Astro.props;
 ---
 
 <a href={`/projects/${slug}`} class="group block">
@@ -44,9 +35,10 @@ const {
     <ParallaxImage
       src={coverImage}
       alt={title}
-      class="w-full"
+      class="w-full object-cover"
       loading={loading}
-      fetchPriority={fetchPriority}
+      fetchpriority={loading === "eager" ? "high" : "auto"}
+      data-project-cover
     />
   </div>
 </a>
