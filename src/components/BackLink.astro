@@ -15,7 +15,7 @@ const { href, label } = Astro.props;
     style="color: var(--color-text-secondary);"
   >
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-    <path d="M10.5 3.5L3.5 10.5M3.5 10.5H8.5M3.5 10.5V5.5" stroke="var(--color-text-tertiary)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M10.5 3.5L3.5 10.5M3.5 10.5H8.5M3.5 10.5V5.5" stroke="var(--color-text-tertiary)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
     {label}
   </a>
@@ -23,13 +23,29 @@ const { href, label } = Astro.props;
 
 <script>
   function initBackLinks() {
-    document.querySelectorAll<HTMLAnchorElement>("[data-back-link]").forEach((link) => {
+    document.querySelectorAll("[data-back-link]").forEach((link) => {
       link.addEventListener("click", (event) => {
-        const targetPath = window.location.pathname;
-        if (!targetPath.startsWith("/projects/")) return;
+        var isProjectDetail = window.location.pathname.startsWith("/projects/");
+        var canReturn = false;
+
+        try {
+          var ref = document.referrer ? new URL(document.referrer) : null;
+          canReturn =
+            isProjectDetail &&
+            window.history.length > 1 &&
+            !!ref &&
+            ref.origin === window.location.origin;
+        } catch (err) {
+          canReturn = false;
+        }
+
+        if (!canReturn) return;
 
         event.preventDefault();
-        window.location.assign(link.href);
+        try {
+          sessionStorage.setItem("returningFromProject", "1");
+        } catch (err) {}
+        history.back();
       });
     });
   }

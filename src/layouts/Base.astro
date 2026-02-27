@@ -51,6 +51,27 @@ const {
 
     <!-- Re-apply theme + restore scroll after View Transitions swap -->
     <script is:inline>
+      function wakeLazyProjectImages() {
+        var images = document.querySelectorAll("img[data-project-cover]");
+        for (var i = 0; i < images.length; i++) {
+          var image = images[i];
+          if (image.loading === "lazy") {
+            image.loading = "eager";
+          }
+        }
+      }
+
+      function maybeRefreshProjectImages() {
+        try {
+          if (sessionStorage.getItem("returningFromProject") === "1") {
+            sessionStorage.removeItem("returningFromProject");
+            requestAnimationFrame(function () {
+              wakeLazyProjectImages();
+            });
+          }
+        } catch (err) {}
+      }
+
       // Save scroll position before navigating away
       document.addEventListener("astro:before-preparation", function (e) {
         var path = window.location.pathname;
@@ -85,6 +106,7 @@ const {
               window.scrollTo(0, parseInt(saved, 10));
               sessionStorage.removeItem("scroll:" + path);
               window.__scrollRestored = true;
+              maybeRefreshProjectImages();
 
               // Instantly reveal all scroll-reveal elements in viewport
               // This runs before the transition animation shows the new page
@@ -104,6 +126,14 @@ const {
               });
             }
           } catch (err) {}
+        }
+      });
+
+      // Some BFCache restores can keep project covers lazy when coming from detail pages.
+      // Re-check on restored back/forward navigations.
+      window.addEventListener("pageshow", function () {
+        if (window.location.pathname === "/") {
+          maybeRefreshProjectImages();
         }
       });
     </script>

@@ -54,7 +54,7 @@ const projects = (await getCollection("projects"))
             category={project.data.category}
             coverImage={project.data.coverImage}
             slug={project.id}
-            loading="eager"
+            loading={i === 0 ? "eager" : "lazy"}
           />
         </ScrollReveal>
       ))}
