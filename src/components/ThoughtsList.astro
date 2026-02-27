@@ -1,0 +1,121 @@
+---
+interface Thought {
+  id: string;
+  data: {
+    title: string;
+    date: Date;
+    tag?: string;
+    italic?: boolean;
+  };
+}
+
+interface Props {
+  thoughts: Thought[];
+  heading?: string;
+}
+
+const { thoughts, heading } = Astro.props;
+
+function getOrdinal(day: number): string {
+  const s = ["th", "st", "nd", "rd"];
+  const v = day % 100;
+  return day + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+---
+
+<div class="thoughts-heading-area">
+  <slot name="heading">
+    {heading && (
+      <h2 class="thoughts-month-heading">{heading}</h2>
+    )}
+  </slot>
+</div>
+<ul class="thoughts-list" role="list">
+  {thoughts.map((thought) => {
+    const day = thought.data.date.getUTCDate();
+    return (
+      <li>
+        <a href={`/thoughts/${thought.id}`} class="thought-row">
+          <span class:list={["thought-title", { "thought-title--italic": thought.data.italic }]}>{thought.data.title}</span>
+          <span class="thought-leader" aria-hidden="true"></span>
+          <span class="thought-date">{getOrdinal(day)}</span>
+        </a>
+      </li>
+    );
+  })}
+</ul>
+
+<style>
+  .thoughts-heading-area {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--space-sm);
+  }
+
+  .thoughts-month-heading {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-caption);
+    font-weight: var(--font-weight-bold);
+    text-align: right;
+    color: var(--color-text-secondary);
+  }
+
+  .thoughts-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-lg) 0;
+  }
+
+  .thought-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.6rem 0;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity var(--duration-fast) var(--easing-default);
+  }
+  .thought-row:hover {
+    opacity: 0.6;
+  }
+
+  .thought-title {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--color-text-primary);
+  }
+
+  @media (max-width: 640px) {
+    .thought-row {
+      flex-wrap: wrap;
+    }
+    .thought-leader {
+      display: none;
+    }
+    .thought-date {
+      margin-left: auto;
+    }
+  }
+  .thought-title--italic {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.1875rem;
+  }
+
+
+  .thought-leader {
+    flex: 1;
+    min-width: 1rem;
+    border-bottom: 1.5px dotted var(--color-text-tertiary);
+    position: relative;
+    top: -0.25em;
+  }
+
+  .thought-date {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-caption);
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+</style>

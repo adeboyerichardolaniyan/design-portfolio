@@ -88,7 +88,7 @@ export default function MiniAppEmbed({
           style={{ backgroundColor: beforeColor }}
         >
           <div className="flex flex-col items-center gap-2">
-            <p className="text-lg font-medium" style={{ color: beforeTextColor }}>
+            <p className="text-base font-medium" style={{ color: beforeTextColor }}>
               {beforeLabel}
             </p>
             {/* Mock wireframe UI */}
@@ -110,7 +110,7 @@ export default function MiniAppEmbed({
           }}
         >
           <div className="flex flex-col items-center gap-2">
-            <p className="text-lg font-medium" style={{ color: afterTextColor }}>
+            <p className="text-base font-medium" style={{ color: afterTextColor }}>
               {afterLabel}
             </p>
             {/* Mock polished UI */}

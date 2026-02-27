@@ -23,4 +23,15 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { projects };
+const thoughts = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/thoughts" }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    tag: z.string().optional(),
+    italic: z.boolean().default(false),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { projects, thoughts };

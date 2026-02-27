@@ -191,3 +191,6 @@ const projects = defineCollection({
 21. prefers-reduced-motion support
 22. Performance audit
 23. Final visual review
+24. Vercel Analytics 
+25. Download resume button and func (file storage)
+26. Add a blog section with defined layout options that can be used in an md file

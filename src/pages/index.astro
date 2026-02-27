@@ -15,21 +15,30 @@ const projects = (await getCollection("projects"))
     <div class="mx-auto max-w-3xl">
       <ScrollReveal>
         <p class="text-[var(--font-size-hero)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]">
-          A designer with over a decade of experience, building products
-          and leading design teams. Collaborating with companies and startups
-          on interaction design, early concepts, 0 &gt; 1, and prototypes.
+          A designer with over a decade of experience, building products and leading design teams. Collaborating with companies and startups on interaction design, early concepts, 0 &gt; 1, and prototypes. Currently dedicated to developing immersive products within the artificial intelligence space. Open for selected opportunities at <a href="mailto:hello@example.com" class="text-[var(--color-text-primary)] underline underline-offset-2">hello@example.com</a>
         </p>
       </ScrollReveal>
       <ScrollReveal delay={0.1}>
-        <p class="mt-[var(--space-md)] text-[var(--font-size-hero)] font-[var(--font-weight-bold)] leading-[var(--line-height-tight)] text-[var(--color-text-primary)]">
-          Currently dedicated to developing immersive products within the
-          artificial intelligence space.
-        </p>
-      </ScrollReveal>
-      <ScrollReveal delay={0.2}>
-        <p class="mt-[var(--space-md)] text-[var(--font-size-body)] text-[var(--color-text-secondary)]">
-          Open for selected opportunities at <a href="mailto:hello@example.com" class="text-[var(--color-text-primary)] underline underline-offset-2">hello@example.com</a>
-        </p>
+        <nav class="mt-[var(--space-md)] flex gap-[var(--space-md)]">
+          <a href="#projects" class="inline-flex items-center gap-1.5 text-[var(--font-size-caption)]" style="color: var(--color-text-secondary);">
+            Projects
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M3.5 10.5L10.5 3.5M10.5 3.5H5.5M10.5 3.5V8.5" stroke="var(--color-text-tertiary)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a href="/about" class="inline-flex items-center gap-1.5 text-[var(--font-size-caption)]" style="color: var(--color-text-secondary);">
+            Profile
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M3.5 10.5L10.5 3.5M10.5 3.5H5.5M10.5 3.5V8.5" stroke="var(--color-text-tertiary)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a href="/thoughts" class="inline-flex items-center gap-1.5 text-[var(--font-size-caption)]" style="color: var(--color-text-secondary);">
+            Thoughts
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M3.5 10.5L10.5 3.5M10.5 3.5H5.5M10.5 3.5V8.5" stroke="var(--color-text-tertiary)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </nav>
       </ScrollReveal>
     </div>
   </section>
@@ -38,15 +47,15 @@ const projects = (await getCollection("projects"))
   <section id="projects" class="mx-auto max-w-[var(--content-max-width)] px-[var(--content-padding)] pb-[var(--space-xl)]">
     <div class="flex flex-col gap-[var(--space-xl)]">
       {projects.map((project, i) => (
-        <ScrollReveal delay={i * 0.05}>
-          <ProjectCard
-            title={project.data.title}
-            subtitle={project.data.subtitle}
-            category={project.data.category}
-            coverImage={project.data.coverImage}
-            slug={project.id}
-          />
-        </ScrollReveal>
+        <ProjectCard
+          title={project.data.title}
+          subtitle={project.data.subtitle}
+          category={project.data.category}
+          coverImage={project.data.coverImage}
+          slug={project.id}
+          loading={i === 0 ? "eager" : "lazy"}
+          fetchPriority={i === 0 ? "high" : "auto"}
+        />
       ))}
     </div>
   </section>
