@@ -65,23 +65,19 @@ const projects = (await getCollection("projects"))
     function hydrateLazyProjectImages() {
       if (window.location.pathname !== "/") return;
 
-      const entries = performance.getEntriesByType("navigation");
-      const navEntry = entries[0];
+      const navEntry = performance.getEntriesByType(
+        "navigation",
+      )[0] as PerformanceNavigationTiming | undefined;
       const referrer = document.referrer || "";
       const shouldHydrate =
         navEntry?.type === "back_forward" || referrer.includes("/projects/");
 
       if (!shouldHydrate) return;
 
-      const preloadDistance = window.innerHeight * 2.25;
       const lazyProjectImages = document.querySelectorAll('img[data-project-cover][loading="lazy"]');
 
       lazyProjectImages.forEach((img) => {
-        const rect = img.getBoundingClientRect();
-        if (rect.top <= preloadDistance && rect.bottom >= -preloadDistance) {
-          img.loading = "eager";
-          img.src = img.src;
-        }
+        img.loading = "eager";
       });
     }
 
