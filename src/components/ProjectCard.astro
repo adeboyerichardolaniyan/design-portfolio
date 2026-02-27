@@ -1,13 +1,25 @@
 ---
+import ParallaxImage from "@/components/ParallaxImage.astro";
+
 interface Props {
   title: string;
   subtitle: string;
   category: string;
   coverImage: string;
   slug: string;
+  loading?: "lazy" | "eager" | "auto";
+  fetchPriority?: "high" | "low" | "auto";
 }
 
-const { title, subtitle, category, coverImage, slug } = Astro.props;
+const {
+  title,
+  subtitle,
+  category,
+  coverImage,
+  slug,
+  loading = "auto",
+  fetchPriority = "auto",
+} = Astro.props;
 ---
 
 <a href={`/projects/${slug}`} class="group block">
@@ -26,14 +38,15 @@ const { title, subtitle, category, coverImage, slug } = Astro.props;
 
   <!-- Cover image in rounded container -->
   <div
+    transition:name={`project-cover-${slug}`}
     class="overflow-hidden rounded-[var(--radius-portfolio-lg)] bg-[var(--color-bg-secondary)] transition-transform duration-[var(--duration-slow)] ease-[var(--easing-default)] group-hover:scale-[0.98]"
   >
-    <img
+    <ParallaxImage
       src={coverImage}
       alt={title}
-      class="w-full object-cover"
-      loading="lazy"
-      transition:name={`project-cover-${slug}`}
+      class="w-full"
+      loading={loading}
+      fetchPriority={fetchPriority}
     />
   </div>
 </a>

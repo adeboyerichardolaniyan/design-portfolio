@@ -33,7 +33,7 @@ export default function DemoWidget() {
     >
       {/* Header */}
       <div className="border-b border-[var(--color-border-custom)] px-6 py-4">
-        <p className="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">
+        <p className="text-[var(--font-size-caption)] text-[var(--color-text-tertiary)]">
           Interactive Token Explorer
         </p>
       </div>

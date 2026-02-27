@@ -1,5 +1,6 @@
 ---
 import Base from "./Base.astro";
+import BackLink from "@/components/BackLink.astro";
 import ProjectHero from "@/components/ProjectHero.astro";
 import ProjectMeta from "@/components/ProjectMeta.astro";
 import ScrollReveal from "@/components/ScrollReveal.astro";
@@ -25,9 +26,10 @@ const { slug, frontmatter } = Astro.props;
 ---
 
 <Base title={`${frontmatter.title} — Portfolio`} description={frontmatter.subtitle}>
+  <BackLink href="/#projects" label="Projects" />
   <article class="mx-auto max-w-[var(--content-max-width)] px-[var(--content-padding)]">
     <!-- Hero Image -->
-    <div class="pt-[var(--space-lg)]">
+    <div class="pt-[var(--space-md)]">
       <ProjectHero
         src={frontmatter.coverImage}
         alt={frontmatter.title}
@@ -45,7 +47,7 @@ const { slug, frontmatter } = Astro.props;
           >
             {frontmatter.title}
           </h1>
-          <p class="mt-[var(--space-xs)] text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">
+          <p class="mt-[var(--space-xs)] text-[var(--font-size-caption)]" style="color: var(--color-text-secondary);">
             {frontmatter.category}
           </p>
         </div>
@@ -81,7 +83,7 @@ const { slug, frontmatter } = Astro.props;
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center justify-between rounded-[var(--radius-portfolio-md)] border border-[var(--color-border-custom)] px-6 py-4 text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-primary)] transition-colors duration-[var(--duration-fast)] hover:bg-[var(--color-bg-secondary)]"
+              class="flex items-center justify-between rounded-[var(--radius-portfolio-md)] border border-[var(--color-border-custom)] px-6 py-4 text-[var(--font-size-caption)] text-[var(--color-text-primary)] transition-colors duration-[var(--duration-fast)] hover:bg-[var(--color-bg-secondary)]"
             >
               <span>{link.label}</span>
               <span>&rsaquo;</span>
@@ -110,7 +112,7 @@ const { slug, frontmatter } = Astro.props;
     margin-bottom: var(--space-sm);
   }
   .prose-portfolio :global(h3) {
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: var(--font-weight-bold);
     line-height: var(--line-height-tight);
     color: var(--color-text-primary);

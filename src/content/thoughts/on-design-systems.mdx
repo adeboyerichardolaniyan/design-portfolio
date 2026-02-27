@@ -1,0 +1,60 @@
+---
+title: "On design systems"
+date: 2026-02-21
+draft: false
+---
+
+import DemoWidget from "@/components/interactive/DemoWidget.tsx";
+
+A design system is not a Figma library. It's not a component repo, either. It's the shared language between people who build things together — a set of decisions made once so they don't have to be made again.
+
+The best systems I've worked with were never the most comprehensive. They were the most opinionated. They said "no" more than "yes." They traded flexibility for speed, and everyone was better for it.
+
+![A simple grid of color tokens arranged in a systematic palette](/images/projects/atlas-cover.svg)
+
+<figure>
+  <img src="/images/projects/atlas-cover.svg" alt="Token system overview" />
+  <figcaption>An example of a token system with semantic naming.</figcaption>
+</figure>
+
+## The role of tokens
+
+Tokens are the atoms. Every decision — color, spacing, radius, type scale — should be encoded as a token before it reaches a component. When a designer says "use the secondary background," both design and engineering should resolve to the exact same value.
+
+```css
+:root {
+  --color-bg: #ffffff;
+  --color-bg-secondary: #f9f9fa;
+  --color-text-primary: #000000;
+  --color-text-secondary: #697175;
+}
+```
+
+The problem starts when a system tries to be everything. When every edge case gets a token and every variation gets a component, you end up with something nobody can hold in their head. The system becomes the product, and the actual product suffers.
+
+> The best design systems are the ones you forget you're using. They disappear into the work. — [Some Designer](https://example.com)
+
+## Interactive exploration
+
+Below is a small interactive widget that demonstrates how tokens work together. Try selecting different values and see how they compose.
+
+<div class="embed">
+  <DemoWidget client:visible />
+</div>
+
+## Principles over patterns
+
+- **Start small.** Three colors, two type scales, one spacing unit. Grow only when real pain demands it.
+- **Name semantically.** `text-secondary` ages better than `gray-500`.
+- **Delete often.** Unused tokens are debt. Review quarterly.
+- **Document decisions,** not just values. Why this radius? Why this scale?
+
+---
+
+Start with constraints. Add only when the pain of not having something exceeds the cost of maintaining it. Delete aggressively. A design system should feel lighter over time, not heavier.
+
+<video controls preload="metadata" poster="/images/projects/atlas-cover.svg">
+  <source src="#" type="video/mp4" />
+</video>
+
+The craft is in the curation, not the accumulation.

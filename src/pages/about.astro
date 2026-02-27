@@ -1,10 +1,20 @@
 ---
 import Base from "@/layouts/Base.astro";
+import BackLink from "@/components/BackLink.astro";
 import ScrollReveal from "@/components/ScrollReveal.astro";
+import fs from "node:fs";
+import path from "node:path";
+
+const resumeDir = path.join(process.cwd(), "public/docs/resume");
+const resumeFiles = fs.existsSync(resumeDir)
+  ? fs.readdirSync(resumeDir).filter((f) => f.endsWith(".pdf"))
+  : [];
+const resumeHref = resumeFiles.length > 0 ? `/docs/resume/${resumeFiles[0]}` : null;
 ---
 
 <Base title="About — Portfolio" description="About me">
-  <section class="mx-auto max-w-[var(--content-max-width)] px-[var(--content-padding)] pt-[var(--space-xl)] pb-[var(--space-xl)]">
+  <BackLink href="/" label="Home" />
+  <section class="mx-auto max-w-[var(--content-max-width)] px-[var(--content-padding)] pt-[var(--space-lg)] pb-[var(--space-xl)]">
     <div class="grid grid-cols-1 gap-[var(--space-lg)] lg:grid-cols-[1fr_2fr]">
       <!-- Left column -->
       <ScrollReveal>
@@ -43,7 +53,7 @@ import ScrollReveal from "@/components/ScrollReveal.astro";
         <!-- Contact -->
         <ScrollReveal delay={0.2}>
           <div class="mt-[var(--space-md)] border-t border-[var(--color-border-custom)] pt-[var(--space-md)]">
-            <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">
+            <p class="text-[var(--font-size-caption)] text-[var(--color-text-tertiary)]">
               Get in touch
             </p>
             <div class="mt-[var(--space-sm)] flex flex-col gap-[var(--space-xs)]">
@@ -58,20 +68,20 @@ import ScrollReveal from "@/components/ScrollReveal.astro";
         </ScrollReveal>
 
         <!-- Experience -->
-        <ScrollReveal delay={0.25}>
+        <ScrollReveal delay={0.3}>
           <div class="mt-[var(--space-md)] border-t border-[var(--color-border-custom)] pt-[var(--space-md)]">
-            <p class="text-[var(--font-size-caption)] uppercase tracking-widest text-[var(--color-text-tertiary)]">
+            <p class="text-[var(--font-size-caption)] text-[var(--color-text-tertiary)]">
               Experience
             </p>
             <div class="mt-[var(--space-sm)] flex flex-col gap-[var(--space-sm)]">
-              <div class="flex justify-between">
+              <div class="flex flex-col gap-1 sm:flex-row sm:justify-between sm:gap-0">
                 <div>
                   <p class="font-[var(--font-weight-bold)] text-[var(--color-text-primary)]">Company Name</p>
                   <p class="text-[var(--font-size-caption)] text-[var(--color-text-secondary)]">Senior Product Designer</p>
                 </div>
                 <p class="text-[var(--font-size-caption)] text-[var(--color-text-tertiary)]">2024 — Present</p>
               </div>
-              <div class="flex justify-between">
+              <div class="flex flex-col gap-1 sm:flex-row sm:justify-between sm:gap-0">
                 <div>
                   <p class="font-[var(--font-weight-bold)] text-[var(--color-text-primary)]">Previous Co.</p>
                   <p class="text-[var(--font-size-caption)] text-[var(--color-text-secondary)]">Product Designer</p>
@@ -81,6 +91,23 @@ import ScrollReveal from "@/components/ScrollReveal.astro";
             </div>
           </div>
         </ScrollReveal>
+
+        {resumeHref && (
+          <ScrollReveal delay={0.3}>
+            <a
+              href={resumeHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-[var(--space-sm)] inline-flex items-center gap-1.5 text-[var(--font-size-caption)]"
+              style="color: var(--color-text-secondary);"
+            >
+              View Resume
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M3.5 10.5L10.5 3.5M10.5 3.5H5.5M10.5 3.5V8.5" stroke="var(--color-text-tertiary)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </ScrollReveal>
+        )}
       </div>
     </div>
   </section>

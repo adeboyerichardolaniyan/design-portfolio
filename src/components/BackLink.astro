@@ -1,0 +1,63 @@
+---
+interface Props {
+  href: string;
+  label: string;
+}
+
+const { href, label } = Astro.props;
+---
+
+<nav class="mx-auto max-w-[var(--content-max-width)] px-[var(--content-padding)] pt-[var(--space-md)]">
+  <a
+    href={href}
+    data-back-link
+    class="inline-flex items-center gap-1.5 text-[var(--font-size-caption)]"
+    style="color: var(--color-text-secondary);"
+  >
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+    <path d="M10.5 3.5L3.5 10.5M3.5 10.5H8.5M3.5 10.5V5.5" stroke="var(--color-text-tertiary)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    {label}
+  </a>
+</nav>
+
+<script>
+  function initBackLinks() {
+    document.querySelectorAll<HTMLAnchorElement>("[data-back-link]").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const linkPath = new URL(link.href, window.location.href).pathname;
+        const normalizedLinkPath = linkPath.endsWith("/") && linkPath.length > 1
+          ? linkPath.slice(0, -1)
+          : linkPath;
+
+        if (window.history.length <= 1) return;
+        if (!document.referrer) return;
+
+        try {
+          const referrerPath = new URL(document.referrer).pathname;
+          const normalizedReferrerPath = referrerPath.endsWith("/") && referrerPath.length > 1
+          ? referrerPath.slice(0, -1)
+          : referrerPath;
+
+          const referrerOrigin = new URL(document.referrer).origin;
+          if (referrerOrigin !== window.location.origin) return;
+
+          const comingFromProject = normalizedReferrerPath.startsWith("/projects");
+
+          if (
+            comingFromProject ||
+            normalizedLinkPath === normalizedReferrerPath ||
+            (normalizedLinkPath === "/" && normalizedReferrerPath === "/")
+          ) {
+            event.preventDefault();
+            window.history.back();
+            return;
+          }
+        } catch (_) {}
+      });
+    });
+  }
+
+  initBackLinks();
+  document.addEventListener("astro:page-load", initBackLinks);
+</script>

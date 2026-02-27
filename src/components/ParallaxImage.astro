@@ -4,9 +4,20 @@ interface Props {
   alt: string;
   class?: string;
   speed?: number;
+  loading?: "lazy" | "eager" | "auto";
+  fetchPriority?: "high" | "low" | "auto";
 }
 
-const { src, alt, class: className = "", speed = 0.15 } = Astro.props;
+const {
+  src,
+  alt,
+  class: className = "",
+  speed = 0.15,
+  loading = "auto",
+  fetchPriority = "auto",
+} = Astro.props;
+
+const imageLoading = loading === "lazy" || loading === "eager" ? loading : undefined;
 ---
 
 <div class:list={["parallax-container overflow-hidden rounded-[var(--radius-portfolio-lg)]", className]}>
@@ -14,7 +25,9 @@ const { src, alt, class: className = "", speed = 0.15 } = Astro.props;
     src={src}
     alt={alt}
     class="parallax-image w-full object-cover"
-    loading="lazy"
+    loading={imageLoading}
+    fetchpriority={fetchPriority}
+    decoding="async"
     data-speed={speed}
     style="will-change: transform;"
   />
@@ -39,6 +52,14 @@ const { src, alt, class: className = "", speed = 0.15 } = Astro.props;
     // Clean up previous scroll observers to prevent memory leaks
     cleanups.forEach((cleanup) => cleanup());
     cleanups = [];
+
+    // Skip parallax on mobile for performance
+    if (window.innerWidth < 768 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.querySelectorAll<HTMLImageElement>(".parallax-image").forEach((img) => {
+        img.style.transform = "scale(1)";
+      });
+      return;
+    }
 
     const images = document.querySelectorAll<HTMLImageElement>(".parallax-image");
 

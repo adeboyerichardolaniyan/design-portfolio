@@ -1,0 +1,216 @@
+---
+import Base from "./Base.astro";
+import ThoughtsList from "@/components/ThoughtsList.astro";
+import ScrollReveal from "@/components/ScrollReveal.astro";
+import { getCollection } from "astro:content";
+
+interface Props {
+  slug: string;
+  frontmatter: {
+    title: string;
+    date: Date;
+    tag?: string;
+    italic?: boolean;
+  };
+}
+
+const { slug, frontmatter } = Astro.props;
+
+const allThoughts = (await getCollection("thoughts"))
+  .filter((t) => !t.data.draft && t.id !== slug)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<Base title={`${frontmatter.title} — Thoughts`} description={frontmatter.title}>
+  <article class="mx-auto max-w-3xl px-[var(--content-padding)] pb-[var(--space-md)] pt-[var(--space-lg)]">
+    <ScrollReveal>
+      <h1 class:list={["thought-page-title", { "thought-page-title--italic": frontmatter.italic }]}>{frontmatter.title}</h1>
+      <p class="thought-page-date">{frontmatter.date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })}</p>
+    </ScrollReveal>
+
+    <ScrollReveal delay={0.1}>
+      <div class="thought-prose">
+        <slot />
+      </div>
+    </ScrollReveal>
+  </article>
+
+  <aside class="mx-auto max-w-3xl px-[var(--content-padding)] pb-[var(--space-xl)] pt-[var(--space-lg)]">
+    <ScrollReveal delay={0.15}>
+      {allThoughts.length > 0 && (
+        <ThoughtsList thoughts={allThoughts}>
+          <a
+            href="/"
+            class="inline-flex items-center gap-1.5 text-[var(--font-size-caption)]"
+            style="color: var(--color-text-secondary);"
+            slot="heading"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M10.5 3.5L3.5 10.5M3.5 10.5H8.5M3.5 10.5V5.5" stroke="var(--color-text-tertiary)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Home
+          </a>
+        </ThoughtsList>
+      )}
+    </ScrollReveal>
+  </aside>
+</Base>
+
+<style>
+  .thought-page-title {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-bold);
+    font-size: 1.25rem;
+    line-height: 1.4;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+  }
+  .thought-page-title--italic {
+    font-family: var(--font-serif);
+    font-style: italic;
+  }
+
+  .thought-page-date {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-md);
+  }
+
+  .thought-prose :global(p) {
+    font-family: var(--font-serif);
+    font-size: 0.9375rem;
+    line-height: 1.7948rem;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-sm);
+    text-indent: 1.5em;
+  }
+  .thought-prose :global(p:first-child) {
+    text-indent: 0;
+  }
+
+  .thought-prose :global(a) {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .thought-prose :global(blockquote) {
+    border-left: 3px solid var(--color-border-custom);
+    padding-left: var(--space-sm);
+    color: var(--color-text-secondary);
+    font-style: italic;
+  }
+
+  .thought-prose :global(h2) {
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-bold);
+    font-size: 1.25rem;
+    line-height: 1.4;
+    color: var(--color-text-primary);
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-xs);
+  }
+
+  .thought-prose :global(ul),
+  .thought-prose :global(ol) {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    line-height: 1.75;
+    padding-left: 1.5em;
+    margin-bottom: var(--space-sm);
+  }
+
+  .thought-prose :global(li) {
+    margin-bottom: var(--space-xs);
+  }
+
+  .thought-prose :global(img) {
+    width: 100%;
+    border-radius: var(--radius-portfolio-lg);
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .thought-prose :global(figure) {
+    margin: var(--space-md) 0;
+  }
+  .thought-prose :global(figure img) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .thought-prose :global(figcaption) {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-caption);
+    color: var(--color-text-tertiary);
+    text-align: center;
+    margin-top: var(--space-xs);
+    text-indent: 0;
+  }
+
+  .thought-prose :global(video) {
+    width: 100%;
+    border-radius: var(--radius-portfolio-lg);
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .thought-prose :global(iframe) {
+    width: 100%;
+    border-radius: var(--radius-portfolio-md);
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .thought-prose :global(pre) {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border-custom);
+    border-radius: var(--radius-portfolio-md);
+    padding: var(--space-sm);
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-md);
+    overflow-x: auto;
+  }
+
+  .thought-prose :global(code) {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    font-size: 0.85em;
+    background: var(--color-bg-secondary);
+    padding: 0.15em 0.35em;
+    border-radius: 0.25rem;
+  }
+  .thought-prose :global(pre code) {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .thought-prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--color-border-custom);
+    margin: var(--space-md) 0;
+  }
+
+  .thought-prose :global(.embed) {
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  @media (max-width: 640px) {
+    .thought-prose :global(p) {
+      text-indent: 0;
+    }
+    .thought-prose :global(pre) {
+      font-size: 0.8rem;
+      padding: var(--space-xs);
+      -webkit-overflow-scrolling: touch;
+    }
+    .thought-prose :global(ul),
+    .thought-prose :global(ol) {
+      font-size: 0.9375rem;
+      padding-left: 1.25em;
+    }
+  }
+</style>

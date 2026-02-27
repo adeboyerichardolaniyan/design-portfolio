@@ -1,0 +1,34 @@
+---
+import Base from "@/layouts/Base.astro";
+import BackLink from "@/components/BackLink.astro";
+import ThoughtsList from "@/components/ThoughtsList.astro";
+import ScrollReveal from "@/components/ScrollReveal.astro";
+import { getCollection } from "astro:content";
+
+const allThoughts = (await getCollection("thoughts"))
+  .filter((t) => !t.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// Group by month/year
+const grouped = new Map<string, typeof allThoughts>();
+for (const thought of allThoughts) {
+  const key = thought.data.date.toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+  if (!grouped.has(key)) grouped.set(key, []);
+  grouped.get(key)!.push(thought);
+}
+---
+
+<Base title="Thoughts — Portfolio" description="Writings on design, craft, and building products.">
+  <BackLink href="/" label="Home" />
+  <section class="mx-auto max-w-3xl px-[var(--content-padding)] pb-[var(--space-xl)] pt-[var(--space-lg)]">
+    {[...grouped.entries()].map(([month, thoughts], i) => (
+      <ScrollReveal delay={i * 0.05}>
+        <ThoughtsList thoughts={thoughts} heading={month} />
+      </ScrollReveal>
+    ))}
+  </section>
+</Base>

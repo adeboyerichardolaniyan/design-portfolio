@@ -4,23 +4,29 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ── Inter Variable Font ────────────────────────────── */
+/* ── Söhne (Test: Buch) ────────────────────────────── */
 @font-face {
-  font-family: "Inter";
+  font-family: "Soehne";
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url("https://rsms.me/inter/font-files/InterVariable.woff2")
-    format("woff2");
+  src: url("/fonts/soehne-buch.woff2") format("woff2");
 }
 
+/* ── Newsreader (Google Fonts, variable) ──────────── */
 @font-face {
-  font-family: "Inter";
-  font-style: italic;
-  font-weight: 100 900;
+  font-family: "Newsreader";
+  font-style: normal;
+  font-weight: 200 800;
   font-display: swap;
-  src: url("https://rsms.me/inter/font-files/InterVariable-Italic.woff2")
-    format("woff2");
+  src: url("/fonts/newsreader-variable.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Newsreader";
+  font-style: italic;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/fonts/newsreader-variable-italic.woff2") format("woff2");
 }
 
 /* ── Tailwind Theme Extensions ──────────────────────── */
@@ -63,7 +69,8 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-sans: "Soehne", system-ui, sans-serif;
+  --font-serif: "Newsreader", Georgia, serif;
 }
 
 /* ── Design Tokens: Light ───────────────────────────── */
@@ -112,20 +119,20 @@
   --color-border-custom: #e6eaeb;
   --color-surface: #ffffff;
 
-  --font-size-hero: clamp(2rem, 5vw, 3.5rem);
-  --font-size-heading: clamp(1.5rem, 3vw, 2rem);
-  --font-size-body: 1.125rem;
+  --font-size-hero: 1rem;
+  --font-size-heading: 1rem;
+  --font-size-body: 1rem;
   --font-size-caption: 0.875rem;
   --font-weight-normal: 400;
   --font-weight-bold: 700;
-  --line-height-tight: 1.2;
-  --line-height-body: 1.6;
+  --line-height-tight: 28px;
+  --line-height-body: 28px;
 
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 2rem;
-  --space-lg: 4rem;
-  --space-xl: 8rem;
+  --space-lg: clamp(2rem, 5vw, 4rem);
+  --space-xl: clamp(3rem, 8vw, 8rem);
   --content-max-width: 72rem;
   --content-padding: clamp(1.5rem, 5vw, 4rem);
 
@@ -142,7 +149,7 @@
 
 /* ── Design Tokens: Dark ────────────────────────────── */
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #1a1a1a;
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -174,7 +181,7 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 
-  --color-bg: #0a0a0a;
+  --color-bg: #1a1a1a;
   --color-bg-secondary: #141414;
   --color-text-primary: #fafafa;
   --color-text-secondary: #a0a0a0;
@@ -225,12 +232,13 @@
   }
 }
 
+/* Old page stays fully visible; new page fades in on top */
 ::view-transition-old(root) {
-  animation: page-fade-out 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: none;
 }
 
 ::view-transition-new(root) {
-  animation: page-fade-in 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: page-fade-in 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 /* Reduced motion: disable all custom animations */

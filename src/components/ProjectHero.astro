@@ -5,11 +5,22 @@ interface Props {
   src: string;
   alt: string;
   transitionName?: string;
+  loading?: "lazy" | "eager";
 }
 
-const { src, alt, transitionName } = Astro.props;
+const { src, alt, transitionName, loading = "eager" } = Astro.props;
+const imagePriority = loading === "eager" ? "high" : "auto";
 ---
 
-<div transition:name={transitionName}>
-  <ParallaxImage src={src} alt={alt} />
+<div
+  class="overflow-hidden rounded-[var(--radius-portfolio-lg)]"
+  transition:name={transitionName}
+>
+  <ParallaxImage
+    src={src}
+    alt={alt}
+    class="h-auto"
+    loading={loading}
+    fetchPriority={imagePriority}
+  />
 </div>
