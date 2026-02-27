@@ -25,35 +25,11 @@ const { href, label } = Astro.props;
   function initBackLinks() {
     document.querySelectorAll<HTMLAnchorElement>("[data-back-link]").forEach((link) => {
       link.addEventListener("click", (event) => {
-        const linkPath = new URL(link.href, window.location.href).pathname;
-        const normalizedLinkPath = linkPath.endsWith("/") && linkPath.length > 1
-          ? linkPath.slice(0, -1)
-          : linkPath;
+        const targetPath = window.location.pathname;
+        if (!targetPath.startsWith("/projects/")) return;
 
-        if (window.history.length <= 1) return;
-        if (!document.referrer) return;
-
-        try {
-          const referrerPath = new URL(document.referrer).pathname;
-          const normalizedReferrerPath = referrerPath.endsWith("/") && referrerPath.length > 1
-          ? referrerPath.slice(0, -1)
-          : referrerPath;
-
-          const referrerOrigin = new URL(document.referrer).origin;
-          if (referrerOrigin !== window.location.origin) return;
-
-          const comingFromProject = normalizedReferrerPath.startsWith("/projects");
-
-          if (
-            comingFromProject ||
-            normalizedLinkPath === normalizedReferrerPath ||
-            (normalizedLinkPath === "/" && normalizedReferrerPath === "/")
-          ) {
-            event.preventDefault();
-            window.history.back();
-            return;
-          }
-        } catch (_) {}
+        event.preventDefault();
+        window.location.assign(link.href);
       });
     });
   }
